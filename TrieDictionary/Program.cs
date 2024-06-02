@@ -14,15 +14,20 @@ Trie dictionary = InitializeTrie(words);
 // DeleteWord();
 // GetSpellingSuggestions();
 
+// This method initializes a Trie data structure with the given array of words
 Trie InitializeTrie(string[] words)
 {
+    // Create a new instance of Trie
     Trie trie = new Trie();
 
+    // Iterate through each word in the array
     foreach (string word in words)
     {
+        // Insert the word into the Trie
         trie.Insert(word);
     }
 
+    // Return the initialized Trie
     return trie;
 }
 
@@ -36,12 +41,10 @@ void SearchWord()
         {
             break;
         }
-        /*
         if (input != null && dictionary.Search(input))
         {
             Console.WriteLine($"Found \"{input}\" in dictionary");
         }
-        */
         else
         {
             Console.WriteLine($"Did not find \"{input}\" in dictionary");
@@ -55,10 +58,10 @@ void PrefixAutocomplete()
     GetPrefixInput();
 }
 
-void DeleteWord() 
+void DeleteWord()
 {
     PrintTrie(dictionary);
-    while(true)
+    while (true)
     {
         Console.WriteLine("\nEnter a word to delete, or press Enter to exit.");
         string? input = Console.ReadLine();
@@ -66,14 +69,12 @@ void DeleteWord()
         {
             break;
         }
-        /*
         if (input != null && dictionary.Search(input))
         {
             dictionary.Delete(input);
             Console.WriteLine($"Deleted \"{input}\" from dictionary\n");
             PrintTrie(dictionary);
         }
-        */
         else
         {
             Console.WriteLine($"Did not find \"{input}\" in dictionary");
@@ -81,7 +82,7 @@ void DeleteWord()
     }
 }
 
-void GetSpellingSuggestions() 
+void GetSpellingSuggestions()
 {
     PrintTrie(dictionary);
     Console.WriteLine("\nEnter a word to get spelling suggestions for, or press Enter to exit.");
@@ -94,7 +95,7 @@ void GetSpellingSuggestions()
         {
             Console.WriteLine("No suggestions found.");
         }
-        else 
+        else
         {
             foreach (var word in similarWords)
             {
@@ -115,7 +116,7 @@ void RunAllExercises()
 
 void GetPrefixInput()
 {
-    Console.WriteLine("\nEnter a prefix to search for, then press Tab to " + 
+    Console.WriteLine("\nEnter a prefix to search for, then press Tab to " +
                       "cycle through search results. Press Enter to exit.");
 
     bool running = true;
@@ -124,7 +125,7 @@ void GetPrefixInput()
     List<string>? words = null;
     int wordsIndex = 0;
 
-    while(running)
+    while (running)
     {
         var input = Console.ReadKey(true);
 
@@ -134,7 +135,7 @@ void GetPrefixInput()
             prefix = "";
             sb.Append(' ');
             continue;
-        } 
+        }
         else if (input.Key == ConsoleKey.Backspace && Console.CursorLeft > 0)
         {
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
@@ -154,14 +155,16 @@ void GetPrefixInput()
         {
             string previousWord = sb.ToString().Split(' ').Last();
 
-            if (words != null) {
+            if (words != null)
+            {
                 if (!previousWord.Equals(words[wordsIndex - 1]))
                 {
                     words = dictionary.AutoSuggest(prefix);
                     wordsIndex = 0;
                 }
-            } 
-            else {
+            }
+            else
+            {
                 words = dictionary.AutoSuggest(prefix);
                 wordsIndex = 0;
             }
@@ -173,8 +176,8 @@ void GetPrefixInput()
                 Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
                 sb.Remove(sb.Length - 1, 1);
             }
-        
-            
+
+
             if (words.Count > 0 && wordsIndex < words.Count)
             {
                 string output = words[wordsIndex++];
@@ -198,9 +201,14 @@ void PrintTrie(Trie trie)
 {
     Console.WriteLine("The dictionary contains the following words:");
     List<string> words = trie.GetAllWords();
-    foreach (string word in words)
+    int columnWidth = (int)Math.Ceiling((double)words.Count / 5);
+    for (int i = 0; i < words.Count; i++)
     {
-        Console.Write($"{word}, ");
+        Console.Write($"{words[i],-15}");
+        if ((i + 1) % columnWidth == 0)
+        {
+            Console.WriteLine();
+        }
     }
     Console.WriteLine();
 }

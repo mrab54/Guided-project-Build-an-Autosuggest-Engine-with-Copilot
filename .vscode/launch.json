@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": ".NET Core Test",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build",
+          "program": "dotnet",
+          "args": [
+              "vstest",
+              "${workspaceFolder}/TrieDictionary/TrieDictionaryTest/bin/Debug/net7.0/TrieDictionaryTest.dll"
+          ],
+          "cwd": "${workspaceFolder}/TrieDictionary/TrieDictionaryTest",
+          "stopAtEntry": false,
+          "console": "internalConsole",
+          "justMyCode": false
+      },
+      {
+        "name": ".NET Core Attach",
+        "type": "coreclr",
+        "request": "attach",
+        "preLaunchTask": "dotnet-test-with-debugger",
+        "processName": "testhost.exe"
+    }
+  ]
+}
